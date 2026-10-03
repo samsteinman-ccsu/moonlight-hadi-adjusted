@@ -138,7 +138,7 @@ public class ThorPadActivity extends AppCompatActivity {
         shiftActive = false;
 
         canvas = new LayoutCanvas(this);
-        canvas.setBackgroundColor(Color.parseColor("#0B0E14"));
+        canvas.setBackgroundColor(Color.parseColor("#212121"));
         buildElements(canvas, layout);
         root.addView(canvas, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -263,7 +263,7 @@ public class ThorPadActivity extends AppCompatActivity {
     private View buildKeyboardPanel() {
         LinearLayout panel = new LinearLayout(this);
         panel.setOrientation(LinearLayout.VERTICAL);
-        panel.setBackgroundColor(Color.parseColor("#0D1017"));
+        panel.setBackgroundColor(Color.parseColor("#212121"));
         panel.setPadding(dp(4), dp(4), dp(4), dp(4));
         for (String[] row : KB_ROWS) {
             LinearLayout rowView = new LinearLayout(this);
@@ -294,8 +294,8 @@ public class ThorPadActivity extends AppCompatActivity {
     private Button makeKbKey(final String key) {
         final Button b = new Button(this);
         b.setAllCaps(false);
-        b.setTextColor(Color.parseColor("#C0CAF5"));
-        b.setBackgroundColor(Color.parseColor("#1F2335"));
+        b.setTextColor(Color.parseColor("#808080"));
+        b.setBackgroundColor(Color.parseColor("#404040"));
         b.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
         b.setPadding(0, 0, 0, 0);
         b.setText(kbLabel(key));
@@ -382,7 +382,7 @@ public class ThorPadActivity extends AppCompatActivity {
             View view = null;
             if ("trackpad".equals(type)) {
                 View pad = new View(this);
-                pad.setBackgroundColor(Color.parseColor("#404040"));
+                pad.setBackgroundColor(Color.parseColor("#212121"));
                 pad.setOnTouchListener(new TrackpadListener(touchSlop, trackpadSensitivity));
                 view = pad;
             } else if ("button".equals(type)) {
