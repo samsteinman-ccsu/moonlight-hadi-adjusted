@@ -97,7 +97,7 @@ public class ThorPadActivity extends AppCompatActivity {
         statusText.setTextColor(Color.parseColor("#7AA2F7"));
         statusText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
         statusText.setPadding(dp(8), dp(2), dp(8), dp(2));
-        statusText.setVisibility(false);
+        statusText.setVisibility(View.GONE)
 
         root = new FrameLayout(this);
         setContentView(root);
@@ -166,24 +166,37 @@ public class ThorPadActivity extends AppCompatActivity {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        // Only forward real game-controller buttons. System keys (Back, volume)
-        // and the on-screen keyboard fall through to normal handling below.
-        if (Game.instance != null
-                && ControllerHandler.isGameControllerDevice(event.getDevice())) {
-            switch (event.getAction()) {
-                case KeyEvent.ACTION_DOWN:
-                    if (Game.instance.handleKeyDown(event)) return true;
-                    break;
-                case KeyEvent.ACTION_UP:
-                    if (Game.instance.handleKeyUp(event)) return true;
-                    break;
-                case KeyEvent.ACTION_MULTIPLE:
-                    if (Game.instance.handleKeyMultiple(event)) return true;
-                    break;
+
+        // Back should ever close the ThorPad activity.
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            if (event.getAction() == KeyEvent.ACTION_UP
+                && keyboardPanel != null
+                && keyboardPanel.getVisibility() == View.VISIBLE) {
+            keyboardPanel.setVisibility(View.GONE);
             }
+        return true;
         }
-        return super.dispatchKeyEvent(event);
+
+        // Physical controller events still go to the streamed game.
+        if (Game.instance != null
+            && ControllerHandler.isGameControllerDevice(event.GetDevice())) {
+        switch (event.getAction()) {
+            case KeyEvent.ACTION_DOWN:
+                if (Game.instance.handleKeyDown(event)) return true;
+                break;
+
+            case KeyEvent.ACTION_UP:
+                if (Game.instance.handleKeyUp(event)) return true;
+                break;
+
+            case KeyEvent.ACTION_MULTIPLE:
+                if (Game.instance.handleKeyMultiple(event)) return true;
+                break;
+        }
     }
+
+    return super.dispatchKeyEvent(event);
+}
 
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
