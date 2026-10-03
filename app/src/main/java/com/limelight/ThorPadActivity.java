@@ -179,7 +179,7 @@ public class ThorPadActivity extends AppCompatActivity {
 
         // Physical controller events still go to the streamed game.
         if (Game.instance != null
-            && ControllerHandler.isGameControllerDevice(event.GetDevice())) {
+            && ControllerHandler.isGameControllerDevice(event.getDevice())) {
         switch (event.getAction()) {
             case KeyEvent.ACTION_DOWN:
                 if (Game.instance.handleKeyDown(event)) return true;
