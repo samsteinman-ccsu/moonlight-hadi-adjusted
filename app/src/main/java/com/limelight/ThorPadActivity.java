@@ -117,13 +117,16 @@ public class ThorPadActivity extends AppCompatActivity {
 
     @Override
     protected void onUserLeaveHint() {
-        super.onUserLeaveHint();
+    super.onUserLeaveHint();
 
-        // ThorPad is leaving because the user pressed Home.
-        // Send the streaming activity to the background too.
-        if (Game.instance != null) {
+    // If Home is pressed while ThorPad/bottom display has focus,
+    // also background the main Game task on display 0.
+    if (Game.instance != null) {
+        Game.instance.runOnUiThread(() -> {
             Game.instance.moveTaskToBack(true);
-        }
+        });
+    }
+
     moveTaskToBack(true);
     }
 
