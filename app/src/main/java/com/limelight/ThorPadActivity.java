@@ -97,7 +97,7 @@ public class ThorPadActivity extends AppCompatActivity {
         statusText.setTextColor(Color.parseColor("#7AA2F7"));
         statusText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
         statusText.setPadding(dp(8), dp(2), dp(8), dp(2));
-        statusText.setVisibility(View.GONE)
+        statusText.setVisibility(View.GONE);
 
         root = new FrameLayout(this);
         setContentView(root);
