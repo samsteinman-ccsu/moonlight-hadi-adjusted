@@ -115,6 +115,18 @@ public class ThorPadActivity extends AppCompatActivity {
         handler.post(statusPoll);
     }
 
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+
+        // ThorPad is leaving because the user pressed Home.
+        // Send the streaming activity to the background too.
+        if (Game.instance != null) {
+            Game.instance.moveTaskToBack(true);
+        }
+    moveTaskToBack(true);
+}
+
     /** Builds (or rebuilds) the pad from the resolved JSON. Safe to call repeatedly = hot reload. */
     public void applyLayout() {
         JSONObject layout = loadLayout(appName);
