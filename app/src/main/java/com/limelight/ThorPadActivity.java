@@ -125,7 +125,7 @@ public class ThorPadActivity extends AppCompatActivity {
             Game.instance.moveTaskToBack(true);
         }
     moveTaskToBack(true);
-}
+    }
 
     /** Builds (or rebuilds) the pad from the resolved JSON. Safe to call repeatedly = hot reload. */
     public void applyLayout() {
@@ -162,6 +162,17 @@ public class ThorPadActivity extends AppCompatActivity {
         return Game.instance != null ? Game.instance.conn : null;
     }
 
+    @Override
+    protected void onUserLeaveHint() {
+    super.onUserLeaveHint();
+
+    // If the user leaves ThorPad for Home, also send the
+    // main Game activity/task to the background.
+    if (Game.instance != null) {
+        Game.instance.moveTaskToBack(true);
+    }
+    }
+
     // ----------------------------------------------------------------------
     // Physical controller pass-through
     //
@@ -179,18 +190,18 @@ public class ThorPadActivity extends AppCompatActivity {
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
 
-        // Back should ever close the ThorPad activity.
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-            if (event.getAction() == KeyEvent.ACTION_UP
-                && keyboardPanel != null
-                && keyboardPanel.getVisibility() == View.VISIBLE) {
-            keyboardPanel.setVisibility(View.GONE);
-            }
-        return true;
+    // Back toggles between ThorPad and the on-screen keyboard.
+    if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+        if (event.getAction() == KeyEvent.ACTION_UP) {
+            toggleKeyboard();
         }
 
-        // Physical controller events still go to the streamed game.
-        if (Game.instance != null
+        // Always consume Back so Android never closes ThorPad.
+        return true;
+    }
+
+    // Physical controller events still go to the streamed game.
+    if (Game.instance != null
             && ControllerHandler.isGameControllerDevice(event.getDevice())) {
         switch (event.getAction()) {
             case KeyEvent.ACTION_DOWN:
@@ -208,7 +219,7 @@ public class ThorPadActivity extends AppCompatActivity {
     }
 
     return super.dispatchKeyEvent(event);
-}
+    }
 
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
@@ -379,7 +390,7 @@ public class ThorPadActivity extends AppCompatActivity {
             View view = null;
             if ("trackpad".equals(type)) {
                 View pad = new View(this);
-                pad.setBackgroundColor(Color.parseColor("#11151F"));
+                pad.setBackgroundColor(Color.parseColor("#404040"));
                 pad.setOnTouchListener(new TrackpadListener(touchSlop, trackpadSensitivity));
                 view = pad;
             } else if ("button".equals(type)) {
