@@ -162,17 +162,6 @@ public class ThorPadActivity extends AppCompatActivity {
         return Game.instance != null ? Game.instance.conn : null;
     }
 
-    @Override
-    protected void onUserLeaveHint() {
-    super.onUserLeaveHint();
-
-    // If the user leaves ThorPad for Home, also send the
-    // main Game activity/task to the background.
-    if (Game.instance != null) {
-        Game.instance.moveTaskToBack(true);
-    }
-    }
-
     // ----------------------------------------------------------------------
     // Physical controller pass-through
     //
